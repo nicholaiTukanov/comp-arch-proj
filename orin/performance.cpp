@@ -49,7 +49,7 @@ void init(float **arr, uint64_t elems) {
         int min = std::min(v1,v2);
         int max = std::max(v1,v2);
         float value = ((float)min)/((float)max);
-        arr[i] = (s==0 ? value : -value);
+        (*arr)[i] = (s==0 ? value : -value);
     }
 }
 
@@ -138,10 +138,18 @@ void get_performance(uint64_t m, uint64_t n, uint64_t k) {
 
 int main(int argc, char **argv) {
 
+    if(argc != 4) {
+        printf("usage error\n");
+        printf("./performance <m> <n> <k>\n");
+        exit(-1);
+    }
+
     uint64_t m = atoi(argv[1]);
     uint64_t n = atoi(argv[2]);
     uint64_t k = atoi(argv[3]);
 
     get_performance(m,n,k);
+
+    return 0;
 
 }
