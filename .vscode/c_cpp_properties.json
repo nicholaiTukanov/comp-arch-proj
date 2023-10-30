@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/local/cuda/include/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang-8"
+        }
+    ],
+    "version": 4
+}
