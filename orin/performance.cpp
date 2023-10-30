@@ -6,20 +6,10 @@
 // number of trials of SGEMM kernel 
 #define NUM_RUNS 10
 
-#define GPU
-
 #ifdef GPU
 #include "cuda.h"
 #include "cublas_v2.h"
 #include "cuda_runtime.h"
-// cublasStatus_t cublasSgemm(cublasHandle_t handle,
-//                            cublasOperation_t transa, cublasOperation_t transb,
-//                            int m, int n, int k,
-//                            const float           *alpha,
-//                            const float           *A, int lda,
-//                            const float           *B, int ldb,
-//                            const float           *beta,
-//                            float           *C, int ldc)
 void cuda_check(cudaError_t err) {
     if(err != cudaSuccess) {
         printf("[ERROR] cuda runtime error %d", err);
@@ -34,11 +24,8 @@ void cuda_check(cublasStatus_t err) {
 }
 #elif defined(CPU)
 #include "armpl.h"
-// void sgemm_(const char *transa, const char *transb, const armpl_int_t *m,
-//             const armpl_int_t *n, const armpl_int_t *k, const float *alpha,
-//             const float *a, const armpl_int_t *lda, const float *b,
-//             const armpl_int_t *ldb, const float *beta, float *c,
-//             const armpl_int_t *ldc, ... );
+#else
+#define ERROR
 #endif
 
 // allocs and initalize an array from [-1,1]
@@ -137,6 +124,11 @@ void get_performance(uint64_t m, uint64_t n, uint64_t k) {
 }
 
 int main(int argc, char **argv) {
+
+    #ifdef ERROR
+    printf("[ERROR] no device has been specified\n");
+    exit(-1);
+    #endif
 
     if(argc != 4) {
         printf("usage error\n");
