@@ -4,7 +4,7 @@
 #include <chrono>
 
 // number of trials of SGEMM kernel 
-#define NUM_RUNS 10
+#define NUM_RUNS 100
 
 #ifdef GPU
 #include "cuda.h"
@@ -72,17 +72,17 @@ void get_performance(uint64_t m, uint64_t n, uint64_t k) {
     for(int IRUNS=0; IRUNS < NUM_RUNS; IRUNS++) {
         
         #ifdef GPU
-        // assume row major for all
+        // assume col major for all
         cudaEventRecord(d_s);
         cublasSgemm(
             handle,
             CUBLAS_OP_N, CUBLAS_OP_N,
             m, n, k,
             &alpha,
-            d_a, k,
-            d_b, n,
+            d_a, m,
+            d_b, k,
             &beta,
-            d_c, n
+            d_c, m
         );
         cudaEventRecord(d_e);
         cudaEventSynchronize(d_e);
