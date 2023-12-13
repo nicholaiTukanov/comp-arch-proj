@@ -1,7 +1,6 @@
 import os
 import subprocess
 import statistics
-import matplotlib.pyplot as plt
 import math
 
 # matmul ops
@@ -42,5 +41,5 @@ def gather_performance(dev):
 
     # plot_performance(dev, type_, list(range(P_START, P_END+1, P_INC)), throughput)
 
-gather_performance("cpu")
+gather_performance("gpu")
 

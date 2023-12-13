@@ -11,7 +11,7 @@ cpu_performance.x:
 	$(CXX) -DCPU -std=c++20 -O3 -fsycl -qmkl=parallel sycl_performance.cpp -o cpu_performance.x $(LDFLAGS)
 
 gpu_performance.x:
-	$(CXX) -DGPU -std=c++20 -O3 -fsycl -qmkl=parallel sycl_performance.cpp -o cpu_performance.x $(LDFLAGS)
+	$(CXX) -DGPU -std=c++20 -O3 -fsycl -qmkl=parallel sycl_performance.cpp -o gpu_performance.x $(LDFLAGS)
 
 clean:
 	rm -rf *.x 

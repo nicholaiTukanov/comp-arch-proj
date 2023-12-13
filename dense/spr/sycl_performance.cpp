@@ -68,11 +68,18 @@ void get_performance(uint64_t m, uint64_t n, uint64_t k, sycl::queue *q) {
             // dpct::get_value(&beta, beta),
             d_c, n
         );
-        e.wait();
-        std::chrono::steady_clock::time_point e = std::chrono::steady_clock::now();
-        elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(e-s).count();
+        // e.wait();
+        // std::chrono::steady_clock::time_point e = std::chrono::steady_clock::now();
+        // elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(e-s).count();
 
-        best = std::min(best, elapsed);
+        auto end =
+            e.get_profiling_info<sycl::info::event_profiling::command_end>();
+        auto start =
+            e.get_profiling_info<sycl::info::event_profiling::command_start>();
+        // auto submit =
+        //     e.get_profiling_info<sycl::info::event_profiling::command_submit>();
+
+        best = std::min(best, 1.0*end-1.0*start);
     }
 
     // we only print time
@@ -95,7 +102,7 @@ int main(int argc, char **argv) {
     sycl::property_list propList{sycl::property::queue::in_order(), sycl::property::queue::enable_profiling()};
     #ifdef CPU
     sycl::queue q(sycl::cpu_selector_v, propList);
-    #elif
+    #else
     sycl::queue q(sycl::gpu_selector_v, propList);
     #endif
 
